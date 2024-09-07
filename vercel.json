@@ -3,10 +3,7 @@
         "src": "Blogs_project/wsgi.py", 
         "use": "@vercel/python",
         "config": {"maxLambdaSize":"15mb", "runtime": "python3.12"},
-        "env": {
-                "PIP_NO_CACHE_DIR": "off",
-                "PIP_DISABLE_PIP_VERSION_CHECK": "on"
-              },
+        
         "installCommand": "apt-get update && apt-get install -y default-libmysqlclient-dev build-essential && pip install --upgrade pip && pip install -r requirements.txt"
 
 
@@ -15,7 +12,7 @@
         "routes": [
             {
                 "src": "/(.*)",
-                "dest": "/Blogs_project/wsgi.py"
+                "dest": "Blogs_project/wsgi.py"
             }
         ]
 }
