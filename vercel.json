@@ -2,10 +2,9 @@
     "builds": [{
         "src": "Blogs_project/wsgi.py", 
         "use": "@vercel/python",
-        "config": {"maxLambdaSize":"15mb", "runtime": "python3.12"},
+        "config": {"maxLambdaSize":"15mb", "runtime": "python3.12"}
         
-        "installCommand": "apt-get update && apt-get install -y default-libmysqlclient-dev build-essential && pip install --upgrade pip && pip install -r requirements.txt"
-
+       
 
           
         }],
