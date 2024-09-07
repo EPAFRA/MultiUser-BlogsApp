@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Event Detail -->
+    <div class="event-details">
+        <!-- Event Image -->
+        {% if event.image %}
+        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid rounded mb-4">
+        {% endif %}
+        
+        <!-- Event Title and Date -->
+        <h1 class="mb-4">{{ event.title }}</h1>
+        <p class="text-muted mb-4">Date: {{ event.date|date:"F d, Y" }}</p>
+        
+        <!-- Event Description -->
+        <p>{{ event.description }}</p>
+        
+        <!-- Action Buttons -->
+        <div class="mt-4">
+            <a href="{% url 'calendar-view' %}" class="btn btn-primary">Back to Calendar</a>
+            {% if user.is_staff %}
+            <a href="{% url 'event-update' event.pk %}" class="btn btn-info">Edit Event</a>
+            <a href="{% url 'event-delete' event.pk %}" class="btn btn-danger">Delete Event</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

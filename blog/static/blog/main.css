@@ -1,0 +1,172 @@
+body {
+  background: #fafafa;
+  color: #333333;
+  margin-top: 5rem;
+}
+
+/* Define color variables */
+:root {
+  --primary-color: #4f77b9;
+  --secondary-color: #dbd8e9;
+  --highlight-color: #4287ca;
+  --muted-color: #b3adba;
+  --alert-color: #64a4cc;
+  --info-color: #896e93;
+  --success-color: #c09cc8;
+  --warning-color: #aa7fb6;
+  --danger-color: #9e62a6;
+  --background-color: #f8f9fa;
+}
+
+/* General styles */
+body {
+  background-color: var(--background-color);
+  color: #333333;
+  margin-top: 5rem;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+}
+
+.navbar-brand, .nav-link {
+  color: var(--secondary-color);
+}
+
+.navbar-brand img {
+  max-height: 50px;
+  /* Ensure the logo fits well */
+}
+
+/* Article styles */
+.article-title a {
+  color: var(--highlight-color);
+}
+
+.article-content {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* Pagination styles */
+.btn-outline-info {
+  border-color: var(--highlight-color);
+  color: var(--highlight-color);
+}
+
+.btn-info {
+  background-color: var(--highlight-color);
+  border-color: var(--highlight-color);
+}
+
+.btn-outline-info:hover, .btn-info:hover {
+  background-color: var(--info-color);
+  border-color: var(--info-color);
+  color: white;
+}
+
+
+/* Make the sidebar sticky */
+.sticky-sidebar {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 70px; /* Adjust this value based on your header height */
+  padding-top: 20px;
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+/* Sidebar appearance */
+.sticky-sidebar .list-group-item {
+  background-color: #dbd8e9; /* Lighter background for the sidebar */
+  border: none;
+  margin-bottom: 5px;
+}
+.sticky-sidebar .list-group-item a {
+  color: #4287ca; /* Use primary blue for sidebar links */
+  text-decoration: none;
+}
+.sticky-sidebar .list-group-item a:hover {
+  text-decoration: underline;
+}
+
+/* General text and headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #4f77b9; /* Darker blue for headings */
+}
+
+ul {
+  margin: 0;
+}
+
+.bg-steel {
+  background-color: #5f788a;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #b3adba; /* Light grey for nav links */
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+/* Content styling */
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.article-title {
+  color: #4287ca; /* Primary blue for article titles */
+}
+
+a.article-title:hover {
+  color: #64a4cc; /* Lighter blue on hover */
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.article-metadata a:hover {
+  color: #4f77b9; /* Darker blue for metadata links on hover */
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+  color: #896e93; /* Purple for account headings */
+}

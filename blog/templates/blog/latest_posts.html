@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="latest-posts" style="padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+    <h3 style="font-size: 24px; color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px;">Latest Posts</h3>
+    <ul class="list-unstyled">
+        {% for post in latest_posts %}
+        <li class="media mb-3" style="padding: 10px; background-color: #fff; border-radius: 6px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+            {% if post.thumbnail %}
+            <img src="{{ post.thumbnail.url }}" class="mr-3" alt="{{ post.title }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;">
+            {% endif %}
+            <div class="media-body">
+                <h5 class="mt-0 mb-1" style="font-size: 20px; color: #007bff; margin-bottom: 5px;">
+                    <a href="{% url 'post-detail' post.pk %}" style="text-decoration: none; color: #007bff;">{{ post.title }}</a>
+                </h5>
+                <small class="text-muted" style="display: block; margin-bottom: 8px;">Published on {{ post.date_posted|date:"F d, Y" }}</small>
+                <p class="mt-2" style="font-size: 14px; color: #666;">{{ post.excerpt }}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

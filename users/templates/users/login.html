@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="content-section text-center py-5" style="background-color: #f7f9fc; border-radius: 10px; margin-top: 30px; max-width: 500px; margin-left: auto; margin-right: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <!-- Logo and Title -->
+    <img src="{{ MEDIA_URL }}/media/logo.jpg" alt="Logo" class="mb-3" style="max-width: 150px; border-radius: 50%; border: 2px solid #4e73df;">
+    <h1 class="mb-4" style="font-size: 2rem; color:  #b3adba; font-weight: bold;">WGW</h1>
+
+    <!-- Login Form -->
+    <form method="POST" class="text-left px-4">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="text-center border-bottom mb-4" style="font-size: 1.25rem; color: #333;">Join Today</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group d-flex justify-content-between align-items-center">
+            <button class="btn btn-info" type="submit" style="background-color: #4e73df; border: none;">Log In</button>
+            <a href="{% url 'password_reset' %}" style="color: #4e73df; font-size: 0.9rem;">Forgot password?</a>
+        </div> 
+    </form>
+
+    <!-- Sign Up Link -->
+    <div class="border-top pt-3 mt-4">
+        <small class="text-muted" style="font-size: 0.9rem;">
+            Need an account? <a href="{% url 'register' %}" style="color: #4e73df; text-decoration: none; font-weight: bold;">Sign Up</a>
+        </small>
+    </div>
+</div>
+
+{% endblock content %}

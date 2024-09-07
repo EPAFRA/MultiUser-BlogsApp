@@ -1,0 +1,54 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <!-- Page Title -->
+    <h1 class="mb-4 text-center" style="font-size: 2.5rem; color: #2c3e50; font-weight: bold;">{{ about_page.title }}</h1>
+    <p style="font-size: 1.1rem; line-height: 1.7; color: #34495e;">{{ about_page.introduction }}</p>
+
+    <!-- Our Story Section -->
+    <h2 class="mt-4 mb-3 text-center" style="font-size: 2rem; color: #2980b9;">Our Story</h2>
+    <p style="font-size: 1.1rem; line-height: 1.7; color: #34495e;">{{ about_page.story }}</p>
+
+    <!-- Meet the Team Section -->
+    <h2 class="mt-4 mb-3 text-center" style="font-size: 2rem; color: #2980b9;">Meet the Team</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="team-member text-center" style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background-color: #ecf0f1; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <img src="{{ about_page.team_member_1_image.url }}" alt="{{ about_page.team_member_1_name }}" class="img-fluid rounded-circle mb-3" style="max-width: 150px; border: 3px solid #2980b9;">
+                <h4 style="font-size: 1.25rem; color: #2c3e50; font-weight: bold;">{{ about_page.team_member_1_name }}</h4>
+                <p style="font-size: 1rem; color: #7f8c8d;">{{ about_page.team_member_1_title }}</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="team-member text-center" style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background-color: #ecf0f1; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <img src="{{ about_page.team_member_2_image.url }}" alt="{{ about_page.team_member_2_name }}" class="img-fluid rounded-circle mb-3" style="max-width: 150px; border: 3px solid #2980b9;">
+                <h4 style="font-size: 1.25rem; color: #2c3e50; font-weight: bold;">{{ about_page.team_member_2_name }}</h4>
+                <p style="font-size: 1rem; color: #7f8c8d;">{{ about_page.team_member_2_title }}</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="team-member text-center" style="padding: 1rem; border: 1px solid #ddd; border-radius: 8px; background-color: #ecf0f1; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <img src="{{ about_page.team_member_3_image.url }}" alt="{{ about_page.team_member_3_name }}" class="img-fluid rounded-circle mb-3" style="max-width: 150px; border: 3px solid #2980b9;">
+                <h4 style="font-size: 1.25rem; color: #2c3e50; font-weight: bold;">{{ about_page.team_member_3_name }}</h4>
+                <p style="font-size: 1rem; color: #7f8c8d;">{{ about_page.team_member_3_title }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <h2 class="mt-4 mb-3 text-center" style="font-size: 2rem; color: #2980b9;">Features</h2>
+    <ul style="font-size: 1.1rem; line-height: 1.7; color: #34495e; list-style-type: disc; padding-left: 1.5rem;">
+        {% for feature in about_page.features.splitlines %}
+            <li style="margin-bottom: 0.5rem;">{{ feature }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Join Us Section -->
+    <h2 class="mt-4 mb-3" style="font-size: 2rem; color: #2980b9;">Join Us</h2>
+    <p style="font-size: 1.1rem; line-height: 1.7; color: #34495e;">{{ about_page.join_us }} <a href="{% url 'register' %}" style="color: #8e44ad; text-decoration: underline;">Sign up</a> to start posting and engaging with others.</p>
+
+    <!-- Contact Us Section -->
+    <h2 class="mt-4 mb-3" style="font-size: 2rem; color: #2980b9;">Contact Us</h2>
+    <p style="font-size: 1.1rem; line-height: 1.7; color: #34495e;">{{ about_page.contact_info }} <a href="#" style="color: #8e44ad; text-decoration: underline;">contact us</a>.</p>
+</div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+<!-- announcement_form.html -->
+
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Create Announcement</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock content %}

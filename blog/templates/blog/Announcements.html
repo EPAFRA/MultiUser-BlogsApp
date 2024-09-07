@@ -1,0 +1,56 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="margin-top: 30px;">
+    <!-- Page Title -->
+    <h1 class="mb-4 text-center" style="font-size: 2.5rem; color: #2c3e50; font-weight: bold;">Announcements</h1>
+
+    <!-- Create Announcement Button -->
+    {% if user.is_staff %}
+    <div class="text-center mb-4">
+        <a href="{% url 'announcement-create' %}" class="btn btn-primary" style="padding: 10px 20px; font-size: 1rem;">
+            <i class="fas fa-plus"></i> Create Announcement
+        </a>        
+    </div>
+    {% endif %}
+
+    <!-- Announcements List -->
+    <ul class="list-unstyled">
+        {% for announcement in announcements %}
+        <li class="media mb-4" style="padding: 20px; border-radius: 8px; border: 1px solid #ddd; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <div class="media-body">
+                <h5 class="mt-0 mb-1" style="font-size: 1.5rem; color: #4e73df; font-weight: bold;">{{ announcement.title }}</h5>
+
+                <small class="text-muted" style="font-size: 0.875rem;">Posted on {{ announcement.date_posted|date:"F d, Y" }} by {{ announcement.author }}</small>
+                <p class="mt-2" style="font-size: 1rem; color: #555; line-height: 1.6;">{{ announcement.content|slice:":200" }}{% if announcement.content|length > 200 %}...{% endif %}</p>
+                <a href="{% url 'announcement-detail' announcement.pk %}" class="btn btn-info btn-sm" style="padding: 5px 10px; font-size: 0.875rem; margin-right: 10px;">Read More</a>
+                {% if user.is_staff %}
+                <a href="{% url 'announcement-delete' announcement.pk %}" class="btn btn-danger btn-sm" style="padding: 5px 10px; font-size: 0.875rem;">Delete</a>
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Pagination -->
+    <div class="text-center mt-4">
+        <div class="pagination" style="font-size: 0.875rem;">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-outline-secondary btn-sm" style="margin-right: 5px;">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-secondary btn-sm" style="margin-right: 5px;">Previous</a>
+                {% endif %}
+                
+                <span class="current" style="margin-right: 5px;">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-secondary btn-sm" style="margin-right: 5px;">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-secondary btn-sm">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</div>
+{% endblock content %}

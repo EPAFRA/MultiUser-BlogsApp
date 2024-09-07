@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section mx-auto my-5 p-5" style="max-width: 500px; background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <!-- Form Header -->
+    <h2 class="text-center mb-4" style="color: #333; font-weight: bold;">Join Today</h2>
+
+    <!-- Registration Form -->
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group text-center">
+            <button class="btn btn-primary btn-block" type="submit" style="background-color: #4e73df; border: none;">Sign Up</button>
+        </div> 
+    </form>
+
+    <!-- Sign In Link -->
+    <div class="border-top pt-3 mt-4 text-center">
+        <small class="text-muted">
+            Already have an account? 
+            <a href="{% url 'login' %}" style="color: #4e73df; text-decoration: none; font-weight: bold;">Sign In</a>
+        </small>
+    </div>
+</div>
+<style>
+    /* Hide help text under input fields */
+    .help-block {
+        display: none !important;
+    }
+</style>
+{% endblock content %}

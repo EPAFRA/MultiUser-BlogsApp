@@ -1,0 +1,14 @@
+<!-- announcement_detail.html -->
+
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ object.title }}</h1>
+    <p><small class="text-muted">Posted on {{ object.date_posted|date:"F d, Y" }} by {{ object.author }}</small></p>
+    <p>{{ object.content }}</p>
+    {% if user.is_staff %}
+    <a href="{% url 'announcement-delete' pk=object.pk %}" class="btn btn-danger btn-sm">Delete</a>
+    {% endif %}
+</div>
+{% endblock content %}
