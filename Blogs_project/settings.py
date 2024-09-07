@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-gle11r6kk3!dn*fl0rcdt-+0qd!^7_7b2ev0ne&0!xk4a=q4%2'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'Blogs_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'blogs_db',
-        'USER': 'root',  # Replace with your actual username
-        'PASSWORD': 'root',  # Replace with your actual password
-        'HOST': 'localhost',  # Typically 'localhost' unless you're using a remote server
-        'PORT': '3306'
+        DATABASE_NAME:os.getenv('DATABASE_NAME'),
+        DATABASE_USER : os.getenv('DATABASE_USER'),  
+        DATABASE_PASSWORD: os.getenv('DATABASE_PASSWORD'),  
+        DATABASE_HOST: os.getenv('DATABASE_HOST'), 
+        DATABASE_PORT: os.getenv('DATABASE_PORT')
     }
 }
 
