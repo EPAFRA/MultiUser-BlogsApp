@@ -43,7 +43,13 @@ def profile(request):
 
 
 def get_profile_image_url(profile):
-    if profile.image:  # Check if image is not None
-        url, options = cloudinary_url(profile.image.public_id, width=300, height=300, crop='fill')
+    if profile.image:  # Check if the image is not None
+        url, options = cloudinary_url(
+            profile.image.public_id,
+            width=150,       # Desired width
+            height=150,      # Desired height
+            crop='fill',     # Crop mode: 'fill' ensures the image fills the dimensions
+            gravity="face"   # Optional: Focus on the face if detected
+        )
         return url
-    return None 
+    return None
