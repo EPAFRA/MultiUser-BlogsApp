@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-
+from cloudinary.utils import cloudinary_url
 
 def register(request):
     if request.method == 'POST':
@@ -40,3 +40,11 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+
+
+
+def get_profile_image_url(profile):
+    # Example: Resize image to 300x300 pixels
+    url, options = cloudinary_url(profile.image.public_id, width=300, height=300, crop='fill')
+    return url

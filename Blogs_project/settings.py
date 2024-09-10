@@ -11,7 +11,20 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Configure Cloudinary credentials
+cloudinary.config( 
+    cloud_name = 'dqvewferm', 
+    api_key = '571119879214231', 
+    api_secret = 'YJbJVouCzNWPr76F_GC5ZktJYAg'
+)
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +34,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['.vercel.app']
+
+# DEBUG = True
+
+ALLOWED_HOSTS = ['.vercel.app',  '127.0.0.1']
 
 
 # Application definition
@@ -81,11 +97,11 @@ WSGI_APPLICATION = 'Blogs_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DATABASE_NAME'),
-        'USER': os.getenv('DATABASE_USER'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': os.getenv('DATABASE_HOST'),
-        'PORT': os.getenv('DATABASE_PORT'),
+         'NAME': config('DATABASE_NAME', 'blogs_db'),
+        'USER': config('DATABASE_USER', 'root'),
+        'PASSWORD': config('DATABASE_PASSWORD', 'root'),
+        'HOST': config('DATABASE_HOST',  'localhost'),
+        'PORT': config('DATABASE_PORT', default='3306'),
     }
 }
 
