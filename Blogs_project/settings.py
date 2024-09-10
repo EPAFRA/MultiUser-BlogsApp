@@ -20,9 +20,9 @@ import cloudinary.api
 
 # Configure Cloudinary credentials
 cloudinary.config( 
-    cloud_name = 'dqvewferm', 
-    api_key = '571119879214231', 
-    api_secret = 'YJbJVouCzNWPr76F_GC5ZktJYAg'
+   cloud_name = config('CLOUDINARY_CLOUD_NAME'),
+    api_key = config('CLOUDINARY_API_KEY'),
+    api_secret = config('CLOUDINARY_API_SECRET')
 )
 
 
