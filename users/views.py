@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-
+from cloudinary.utils import cloudinary_url
 
 def register(request):
     if request.method == 'POST':
@@ -31,9 +31,19 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
+    image_url = get_profile_image_url(request.user.profile)
+
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'profile_image_url': image_url  # Pass the image URL to the template
     }
 
     return render(request, 'users/profile.html', context)
+
+
+def get_profile_image_url(profile):
+    if profile.image:  # Check if image is not None
+        url, options = cloudinary_url(profile.image.public_id, width=300, height=300, crop='fill')
+        return url
+    return None 
