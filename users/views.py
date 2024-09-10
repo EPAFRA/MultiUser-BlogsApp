@@ -21,22 +21,22 @@ def register(request):
 def profile(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
-        p_form = ProfileUpdateForm(request.POST,
-                                   request.FILES,
-                                   instance=request.user.profile)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
             messages.success(request, f'Your account has been updated!')
             return redirect('profile')
-
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
+    image_url = get_profile_image_url(request.user.profile)
+
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'profile_image_url': image_url
     }
 
     return render(request, 'users/profile.html', context)
@@ -44,7 +44,10 @@ def profile(request):
 
 
 
+
 def get_profile_image_url(profile):
-    # Example: Resize image to 300x300 pixels
-    url, options = cloudinary_url(profile.image.public_id, width=300, height=300, crop='fill')
-    return url
+    if profile.image:  # Check if image is not None
+        url, options = cloudinary_url(profile.image.public_id, width=300, height=300, crop='fill')
+        return url
+    return None  # Return None or a default URL if no image is set
+
