@@ -2,7 +2,7 @@
 {%block content %}
 {%for post in posts %}
 <article class="media content-section"> 
-    <img class="rounded-circle account-img" src="{{ post.author.profile_image_url }}">  
+    <img class="rounded-circle account-img" src="{{ post.author.profile.image.url }}">  
     <!-- Assuming profile image is in the User model --> 
       <!-- Replace with your actual user model --> 
         <!-- You might want to use a different method to retrieve the profile image, such as an API call or database query -->  

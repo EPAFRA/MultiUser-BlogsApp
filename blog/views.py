@@ -13,6 +13,7 @@ from .forms import CommentForm,AnnouncementForm,EventForm
 def home(request):
     context = {
         'posts': Posts.objects.all
+    
     }
     return render(request, 'blog/home.html', context)
 
