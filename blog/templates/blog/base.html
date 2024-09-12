@@ -26,7 +26,7 @@
      background-color: rgba(0, 0, 0, 0.5);"> <!-- This adds a semi-transparent overlay -->
 
         <div class="container">
-          <img src="{{ MEDIA_URL }}/logo.jpg" alt="Tina Blog Forum" style="height: 40px; width: 10%; border-radius: 50%; border: 2px solid"/>
+          <img src="{% static 'blog/logo.jpg' %}" alt="Tina Blog Forum" style="height: 40px; width: 10%; border-radius: 50%; border: 2px solid"/>
           <!-- <img src="{{ MEDIA_URL }}/media/logo.jpg" alt="Logo" class="mb-3" style="max-width: 150px; border-radius: 50%; border: 2px solid #4e73df;"> -->
           <a class="navbar-brand mr-4" href="{% url 'blog-home' %}" style="color: #F0B3B3;">
             WHAT GIRLS WANT
