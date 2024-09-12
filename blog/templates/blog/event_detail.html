@@ -5,16 +5,18 @@
     <!-- Event Detail -->
     <div class="event-details">
         <!-- Event Image -->
-        {% if event.image %}
-        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid rounded mb-4">
-        {% endif %}
+        {% if event.event_image %}
+        <img src="{{ event.event_image.url }}" alt="{{ event.title }}" style="max-width: 100%; height: auto;">
+      <!-- {% else %}
+        <p>No image available</p> -->
+      {% endif %}
         
         <!-- Event Title and Date -->
-        <h1 class="mb-4">{{ event.title }}</h1>
+        <h1 class="mb-4" style="font-size: 1.5rem; color: #4e73df; font-weight: bold; line-height: 1.6; margin-bottom: 20px;">{{ event.title }}</h1>
         <p class="text-muted mb-4">Date: {{ event.date|date:"F d, Y" }}</p>
         
         <!-- Event Description -->
-        <p>{{ event.description }}</p>
+        <p style="color: #333; text-decoration: none; font-size:1.1rem;">{{ event.description }}</p>
         
         <!-- Action Buttons -->
         <div class="mt-4">

@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4" style="font-weight: bold; color: #333;">Calendar</h1>
+<div class="container mt-5" style="background-color: #dbd8e9; padding-bottom: 30px;">
+    <h1 class="mb-4" style="font-weight: bold; color: #333; text-align: center;">Calendar</h1>
 
     <!-- Create Event Button (Visible Only to Admins) -->
     {% if user.is_staff %}
@@ -16,15 +16,15 @@
     </div>
 
     <!-- Event List -->
-    <div class="event-list mt-4" style="margin-top: 30px;">
-        <h2 style="font-size: 24px; margin-bottom: 20px;">Upcoming Events</h2>
+    <div class="event-list mt-4" style="margin-top: 30px; background-color: #dbd8e9">
+        <h2 style="font-size: 24px; margin-bottom: 20px; ">Upcoming Events</h2>
         <ul class="list-unstyled">
             {% for event in events %}
             <li class="media mb-3 p-3 bg-light rounded" style="border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f8f9fa;">
                 <div class="media-body">
-                    <h5 class="mt-0 mb-1" style="font-size: 18px; color: #007bff;">{{ event.title }}</h5>
+                    <h5 class="mt-0 mb-1" style="font-size: 1.5rem; color: #4e73df; font-weight: bold;">{{ event.title }}</h5>
                     <small class="text-muted" style="font-size: 14px;">{{ event.date|date:"F d, Y" }}</small>
-                    <p class="mt-2" style="font-size: 16px; line-height: 1.5;">{{ event.description|slice:":200" }}{% if event.description|length > 200 %}...{% endif %}</p>
+                    <p class="mt-2" style=" line-height: 1.5; color: #333; text-decoration: none; font-size:1.1rem;">{{ event.description|slice:":200" }}{% if event.description|length > 200 %}...{% endif %}</p>
                     <a href="{% url 'event-detail' event.pk %}" class="btn btn-info btn-sm" style="font-size: 14px;">Read More</a>
                 </div>
             </li>

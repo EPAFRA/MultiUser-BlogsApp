@@ -25,13 +25,13 @@ class AboutPage(models.Model):
     story = models.TextField()
     team_member_1_name = models.CharField(max_length=100)
     team_member_1_title = models.CharField(max_length=100)
-    team_member_1_image = models.ImageField(upload_to='team_images/')
+    team_member_1_image = CloudinaryField('image', blank=True, null=True) 
     team_member_2_name = models.CharField(max_length=100)
     team_member_2_title = models.CharField(max_length=100)
-    team_member_2_image = models.ImageField(upload_to='team_images/')
+    team_member_2_image = CloudinaryField('image', blank=True, null=True) 
     team_member_3_name = models.CharField(max_length=100)
     team_member_3_title = models.CharField(max_length=100)
-    team_member_3_image = models.ImageField(upload_to='team_images/')
+    team_member_3_image = CloudinaryField('image', blank=True, null=True) 
     features = models.TextField()
     join_us = models.TextField()
     contact_info = models.TextField()
@@ -61,8 +61,8 @@ class Comment(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    date = models.DateField()
-    image = models.ImageField(upload_to='event_images/', blank=True, null=True)
+    date = models.DateField(default=timezone.now)
+    event_image = CloudinaryField('image', blank=True, null=True)  # Use CloudinaryField for images
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

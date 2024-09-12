@@ -14,7 +14,7 @@ class AnnouncementForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'date', 'description', 'image']
+        fields = ['title', 'date', 'description', 'event_image']
 
 
 class ContactForm(forms.Form):
