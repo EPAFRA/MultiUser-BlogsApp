@@ -44,11 +44,12 @@
     </ul>
 
     <!-- Join Us Section -->
-    <h2 class="mt-4 mb-3" style="font-size: 2rem; color: #2980b9;">Join Us</h2>
+    <h2 class="mt-4 mb-3 text-center" style="font-size: 2rem; color: #2980b9;">Join Us</h2>
     <p style="font-size: 1.1rem; line-height: 1.7; color: #34495e;">{{ about_page.join_us }} <a href="{% url 'register' %}" style="color: #8e44ad; text-decoration: underline;">Sign up</a> to start posting and engaging with others.</p>
 
     <!-- Contact Us Section -->
-    <h2 class="mt-4 mb-3" style="font-size: 2rem; color: #2980b9;"><a href="{% url 'contact' %}" style="color: #8e44ad; text-decoration: underline;">Conntact Us</a></h2>
-    <p style="font-size: 1.1rem; line-height: 1.7; color: #34495e;">{{ about_page.contact_info }} <a href="#" style="color: #8e44ad; text-decoration: underline;">contact us</a>.</p>
+    <h2 class="mt-4 mb-3 text-center" style="font-size: 2rem; color: #2980b9;" >Contact Us</a></h2>
+    <p style="font-size: 1.1rem; line-height: 1.7; color: #34495e;">{{ about_page.contact_info }} <a href="{% url 'contact' %}" style="color: #8e44ad; text-decoration: underline;">contact us</a>.</p>
 </div>
 {% endblock content %}
+><a  style="color: #8e44ad; text-decoration: underline;"
