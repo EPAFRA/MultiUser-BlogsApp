@@ -9,8 +9,10 @@
             <a class="mr-2" href="{% url 'user-posts' post.author.username %}" style="font-weight: bold; color: #007bff; text-decoration: none;">{{ post.author }}</a>
             <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
         </div>
+        <img src="{% if post.post_image %}{{ post.post_image.url }}{% else %}default_image_url{% endif %}" alt="{{ post.title }}" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px; object-fit: cover;">
         <h2 style="margin: 0;"><a class="article-title" href="{% url 'post-detail' post.id %}" style="color: #333; text-decoration: none; font-size: 1.5em;">{{ post.title }}</a></h2>
         <p class="article-content" style="margin-top: 10px; color: #555;">{{ post.content|truncatewords:20 }}</p>
+        <a href="{% url 'post-detail' post.id %}" class="btn btn-info btn-sm" style="padding: 5px 10px; font-size: 0.875rem; margin-right: 10px;">Read More</a>
     </div>
 </article>
 {% endfor %}
