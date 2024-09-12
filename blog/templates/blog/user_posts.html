@@ -3,7 +3,7 @@
 <h1 class="mb-3">Posts by {{view.kwargs.username}} ({{page_obj.paginator.count}})</h1>
 {%for post in posts %}
 <article class="media content-section"> 
-    <img class="rounded-circle account-img" src="{{ post.author.profile.image.url }}">  
+  <img class="rounded-circle account-img" src="{{ post.author.profile.image.url }}" alt="{{ post.author.username }}'s profile image" style="width: 60px; height: 60px; margin-right: 15px; object-fit: cover;">
     <!-- Assuming profile image is in the User model --> 
       <!-- Replace with your actual user model --> 
         <!-- You might want to use a different method to retrieve the profile image, such as an API call or database query -->  
@@ -14,8 +14,10 @@
             <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
             <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
         </div>
+        <img src="{% if post.post_image %}{{ post.post_image.url }}{% else %}default_image_url{% endif %}" alt="{{ post.title }}" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px; object-fit: cover;">
         <h2><a class="article-title" href=" {% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-        <p class="article-content">{{ post.content }}</p>
+        <p class="article-content" style="font-size: 1.1rem; color: #555; line-height: 1.6; margin-bottom: 20px;">{{ post.content|truncatewords:20  }}</p>
+        <a href="{% url 'post-detail' post.id %}" class="btn btn-info btn-sm" style="padding: 5px 10px; font-size: 0.875rem; margin-right: 10px;">Read More</a>
     </div>
 </article>
 {%endfor %}

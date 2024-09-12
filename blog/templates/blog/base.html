@@ -22,12 +22,11 @@
 <body style="background-color: #f8f9fa; color: #4f77b9; margin-top: 5rem;">
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark fixed-top" 
-     style="background-image: url('{{ MEDIA_URL }}color codes.jpg'); background-size: cover; background-position: center; 
+     style="background-image: url('{{ CLOUDINARY_LOGO_URL }}'); background-size: cover; background-position: center; 
      background-color: rgba(0, 0, 0, 0.5);"> <!-- This adds a semi-transparent overlay -->
 
         <div class="container">
-          <img src="{% static 'blog/logo.jpg' %}" alt="Tina Blog Forum" style="height: 40px; width: 10%; border-radius: 50%; border: 2px solid"/>
-          <!-- <img src="{{ MEDIA_URL }}/media/logo.jpg" alt="Logo" class="mb-3" style="max-width: 150px; border-radius: 50%; border: 2px solid #4e73df;"> -->
+          <img src="{{ CLOUDINARY_LOGO_URL }}" alt="Tina Blog Forum" style="height: 40px; width: 10%; border-radius: 50%; border: 2px solid #4e73df"/>
           <a class="navbar-brand mr-4" href="{% url 'blog-home' %}" style="color: #F0B3B3;">
             WHAT GIRLS WANT
           </a>

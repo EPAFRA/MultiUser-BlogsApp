@@ -23,7 +23,10 @@ cloudinary.config(
    cloud_name = config('CLOUDINARY_CLOUD_NAME'),
     api_key = config('CLOUDINARY_API_KEY'),
     api_secret = config('CLOUDINARY_API_SECRET')
+
 )
+
+CLOUDINARY_LOGO_URL = 'https://res.cloudinary.com/dqvewferm/image/upload/v1726129435/logo_gdeqmm.jpg'
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -83,6 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
             ],
         },
     },
