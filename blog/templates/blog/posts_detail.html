@@ -1,57 +1,97 @@
 {% extends 'blog/base.html' %}
-
 {% block content %}
-<article class="media content-section p-3 mb-4 rounded" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
-    <!-- Author Image -->
-    <img class="rounded-circle account-img mr-3" src="{{ object.author.profile.image.url }}" alt="Author image" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #ddd;">
-
-    <div class="media-body" style="flex: 1;">
-        <!-- Metadata -->
-        <div class="article-metadata mb-2" style="margin-bottom: 10px;">
-            <a class="mr-2 font-weight-bold" href="{% url 'user-posts' object.author.username %}" style="color: #007bff; text-decoration: none; font-size: 1.1rem;">{{ object.author }}</a>
-            <small class="text-muted" style="font-size: 0.9rem;">{{ object.date_posted|date:"F d, Y" }}</small>
-
-            <!-- Edit/Delete Buttons for Author -->
-            {% if object.author == user %}
-            <div class="mt-2" style="margin-top: 10px;">
-                <a class="btn btn-sm btn-outline-secondary mr-2" href="{% url 'post-update' pk=object.pk %}" style="border-radius: 5px; padding: 5px 10px; font-size: 0.9rem;">Edit</a>
-                <a class="btn btn-sm btn-outline-danger" href="{% url 'post-delete' pk=object.pk %}" style="border-radius: 5px; padding: 5px 10px; font-size: 0.9rem;">Delete</a>
+<div class="container" style="max-width: 600px; margin: 0 auto;">
+    <article class="post-item" style="margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <!-- Post Header (Author Profile & Date) -->
+        <div class="post-header d-flex align-items-center" style="padding: 10px;">
+            <img class="rounded-circle" src="{{ object.author.profile.image.url }}" alt="{{ object.author.username }}'s profile image" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
+            <div>
+                <a href="{% url 'user-posts' object.author.username %}" style="font-weight: bold; color: #333; text-decoration: none;">{{ object.author }}</a><br>
+                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
             </div>
-            {% endif %}
+        </div>
+
+        <!-- Post Image -->
+        <div class="post-image">
+            <img src="{% if object.post_image %}{{ object.post_image.url }}{% else %}default_image_url{% endif %}" alt="{{ object.title }}" style="width: 100%; height: auto; object-fit: cover;">
+        </div>
+
+        <!-- Post Actions (Comment Icon and Like Button) -->
+        <div class="post-actions" style="padding: 10px;">
+            <a href="#comments" class="comment-icon" style="text-decoration: none; margin-right: 10px;">
+                <i class="fas fa-comment" style="font-size: 1.5rem; color: #333;"></i>
+            </a>
+            <span style="font-size: 1rem; color: #333;">{{ object.comments.count }} comments</span>
+
+            <form action="{% url 'like-post' object.pk %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                {% if request.user.is_authenticated %}
+                    {% if request.user in object.likes.all %}
+                    <!-- Unlike Button (Heart Filled) -->
+                    <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none;">
+                        <i class="fas fa-heart" style="font-size: 1.5rem; color: red;"></i>
+                    </button>
+                    {% else %}
+                    <!-- Like Button (Heart Outline) -->
+                    <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
+                        <i class="far fa-heart" style="font-size: 1.5rem; color: #333;"></i>
+                    </button>
+                    {% endif %}
+                {% else %}
+                    <!-- Check if the post is in the liked posts stored in session -->
+                    {% if object.pk in request.session.liked_posts %}
+                    <!-- Unlike Button for Anonymous User (Heart Filled) -->
+                    <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none;">
+                        <i class="fas fa-heart" style="font-size: 1.5rem; color: red;"></i>
+                    </button>
+                    {% else %}
+                    <!-- Like Button for Anonymous User (Heart Outline) -->
+                    <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
+                        <i class="far fa-heart" style="font-size: 1.5rem; color: #333;"></i>
+                    </button>
+                    {% endif %}
+                {% endif %}
+            </form>
+            <span>{{ object.posts.likes.count }} likes</span>
         </div>
 
         <!-- Post Content -->
-        <img src="{% if object.post_image %}{{ object.post_image.url }}{% else %}default_image_url{% endif %}" alt="{{ object.title }}" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px; object-fit: cover;">
+        <div class="post-content" style="padding: 10px;">
+            <h2 style="font-size: 1.25rem; color: #333; margin: 0; font-weight: bold;">{{ object.title }}</h2>
+            <p style="color: #555; margin-top: 10px;">{{ object.content }}</p>
+        </div>
+    </article>
 
-        <h2 class="article-title" style="font-size: 1.75rem; color: #333; margin-bottom: 10px;">
-            <a href="#" style="color: inherit; text-decoration: none;">{{ object.title }}</a>
-        </h2>
-        <p class="article-content" style="font-size: 1.1rem; color: #555; line-height: 1.6; margin-bottom: 20px;">{{ object.content }}</p>
-    </div>
-</article>
+    <!-- Comments Section -->
+    <section id="comments" style="padding: 10px; border-top: 1px solid #ddd; margin-top: 20px;">
+        <h4 style="font-size: 1.25rem; color: #333; margin-bottom: 15px;">Comments</h4>
 
-<!-- Comments Section -->
-<section class="content-section mt-3" style="margin-top: 20px;">
-    <h3 class="mt-3" style="font-size: 1.5rem; color: #4e73df; margin-bottom: 15px;">Comments:</h3>
-    <ul class="list-unstyled">
-        {% for comment in object.comments.all %}
-        <li class="media mb-3 p-3 bg-light rounded" style="padding: 15px; border-radius: 8px;">
-            <div class="media-body">
-                <h5 class="mt-0 mb-1" style="font-size: 1.2rem; color: #333;">{{ comment.author }}</h5>
-                <p style="font-size: 1rem; color: #666;">{{ comment.body }}</p>
-                <!-- Delete button visible only to the post author -->
-                {% if object.author == user %}
-                <a href="{% url 'comment-delete' comment.pk %}" class="btn btn-outline-danger btn-sm" style="border-radius: 5px; padding: 3px 7px; font-size: 0.9rem;">Delete</a>
-                {% endif %}
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
+        <!-- Comment Input Form -->
+        <form method="POST" action="{% url 'add_comment' object.pk %}" style="margin-bottom: 20px;">
+            {% csrf_token %}
+            <textarea name="body" class="form-control" placeholder="Add a comment..." rows="1" required style="resize: none;"></textarea>
+            <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 5px;">Post</button>
+        </form>
 
-    <!-- Add a Comment Section -->
-    <div class="mt-3" style="margin-top: 20px;">
-        <h4 style="font-size: 1.25rem; color: #4e73df; margin-bottom: 10px;">Add a Comment:</h4>
-        <a href="{% url 'add_comment' object.pk %}" class="btn btn-primary btn-sm" style="border-radius: 5px; padding: 5px 10px; font-size: 0.9rem;">Add your comment here</a>
-    </div>
-</section>
+        <!-- List of Comments -->
+        {% if object.comments.exists %}
+        <ul class="list-unstyled">
+            {% for comment in object.comments.all %}
+            <li class="media mb-2" style="padding: 5px 0; border-bottom: 1px solid #eee;">
+                <!-- <img class="mr-2 rounded-circle" src="{{ comment.author.profile.image.url }}" alt="{{ comment.author.username }}" style="width: 30px; height: 30px; object-fit: cover;"> -->
+                <div class="media-body" style="font-size: 0.9rem; color: #333;">
+                    <strong>{{ comment.author }}</strong> {{ comment.body }}
+                    <!-- Delete option for the post author -->
+                    {% if object.author == user %}
+                    <a href="{% url 'comment-delete' comment.pk %}" class="text-danger float-right" style="font-size: 0.8rem;">Delete</a>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p style="color: #555;">No comments yet. Be the first to comment!</p>
+        {% endif %}
+    </section>
+</div>
 {% endblock content %}

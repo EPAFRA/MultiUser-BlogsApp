@@ -1,18 +1,89 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 {% for post in posts %}
-<article class="media content-section" style="padding: 20px; border: 1px solid #ddd; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;">
-    <img class="rounded-circle account-img" src="{{ post.author.profile.image.url }}" alt="{{ post.author.username }}'s profile image" style="width: 60px; height: 60px; margin-right: 15px; object-fit: cover;">
+<article class="media content-section" style="padding: 15px; border: 1px solid #ddd; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
+
+    <!-- Profile Image and Metadata -->
+    <img class="rounded-circle account-img" src="{{ post.author.profile.image.url }}" alt="{{ post.author.username }}'s profile image" style="width: 50px; height: 50px; margin-right: 10px; object-fit: cover;">
     
-    <div class="media-body">
-        <div class="article-metadata" style="margin-bottom: 10px;border-bottom: 1px solid #ddd;">
-            <a class="mr-2" href="{% url 'user-posts' post.author.username %}" style="font-weight: bold; color: #007bff; text-decoration: none;">{{ post.author }}</a>
+    <div class="media-body" style="flex: 1;">
+        <div class="article-metadata" style="margin-bottom: 5px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">
+            <a href="{% url 'user-posts' post.author.username %}" style="font-weight: bold; color: #007bff; text-decoration: none;">{{ post.author }}</a>
             <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
         </div>
-        <img src="{% if post.post_image %}{{ post.post_image.url }}{% else %}default_image_url{% endif %}" alt="{{ post.title }}" style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px; object-fit: cover;">
-        <h2 style="margin: 0;"><a class="article-title" href="{% url 'post-detail' post.id %}" style="color: #333; text-decoration: none; font-size: 1.5em;">{{ post.title }}</a></h2>
-        <p class="article-content" style="margin-top: 10px; color: #555;">{{ post.content|truncatewords:20 }}</p>
-        <a href="{% url 'post-detail' post.id %}" class="btn btn-info btn-sm" style="padding: 5px 10px; font-size: 0.875rem; margin-right: 10px;">Read More</a>
+
+        <!-- Post Image - Conditional -->
+        {% if post.post_image %}
+        <img src="{{ post.post_image.url }}" alt="{{ post.title }}" style="width: 100%; height: auto; border-radius: 8px; margin: 10px 0; object-fit: cover;">
+        {% endif %}
+
+        <!-- Post Title and Content -->
+        <h2 style="margin: 5px 0 10px 0;">
+            <a href="{% url 'post-detail' post.id %}" style="color: #333; text-decoration: none; font-size: 1.25em;">{{ post.title }}</a>
+        </h2>
+        <p style="color: #555; font-size: 0.9rem; margin-bottom: 10px;">{{ post.content|truncatewords:20 }}</p>
+
+        <!-- Actions: Like, Comment -->
+        <div class="post-actions" style="padding: 10px;">
+            
+            <!-- Comment Button -->
+            <a onclick="toggleComments('{{ post.id }}')" class="comment-icon" style="text-decoration: none; cursor: pointer;">
+                <i class="fas fa-comment" style="font-size: 1.5rem; color: #333;"></i>     
+                <span style="font-size: 1rem; color: #333;">{{ post.comments.count }} comments</span>
+            </a>
+            
+            <!-- Like Button (with Icon) -->
+            <form action="{% url 'like-post' post.pk %}" method="POST" style="display: inline;">
+              {% csrf_token %}
+              {% if request.user.is_authenticated %}
+                  {% if request.user in post.likes.all %}
+                  <!-- Unlike Button (Heart Filled) -->
+                  <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none;">
+                      <i class="fas fa-heart" style="font-size: 1.5rem; color: red;"></i>
+                  </button>
+                  {% else %}
+                  <!-- Like Button (Heart Outline) -->
+                  <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
+                      <i class="far fa-heart" style="font-size: 1.5rem; color: #333;"></i>
+                  </button>
+                  {% endif %}
+              {% else %}
+                  <!-- Check if the post is in the liked posts stored in session -->
+                  {% if post.pk in request.session.liked_posts %}
+                  <!-- Unlike Button for Anonymous User (Heart Filled) -->
+                  <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none;">
+                      <i class="fas fa-heart" style="font-size: 1.5rem; color: red;"></i>
+                  </button>
+                  {% else %}
+                  <!-- Like Button for Anonymous User (Heart Outline) -->
+                  <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
+                      <i class="far fa-heart" style="font-size: 1.5rem; color: #333;"></i>
+                  </button>
+                  {% endif %}
+              {% endif %}
+          </form>
+          <span>{{ post.total_likes }} likes</span>
+          
+        </div>
+
+        <!-- Comments Section (Initially Hidden) -->
+        <div id="comments-{{ post.id }}" style="display: none; border-top: 1px solid #ddd; padding-top: 10px;">
+            <!-- Add Comment Form -->
+            <form method="POST" action="{% url 'add_comment' post.id %}" style="margin-bottom: 20px;">
+                {% csrf_token %}
+                <textarea name="body" class="form-control" placeholder="Add a comment..." rows="1" required style="resize: none;"></textarea>
+                <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 5px;">Post</button>
+            </form>
+
+            <!-- Display Comments -->
+            {% for comment in post.comments.all %}
+            <div style="display: flex; margin-bottom: 5px;">
+                <p style="margin: 0; font-size: 0.85rem;">
+                    <strong>{{ comment.author }}</strong> {{ comment.body }}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </article>
 {% endfor %}
@@ -37,5 +108,17 @@
     {% endif %}
   </div>
 {% endif %}
+
+<!-- Inline JavaScript for toggling comments -->
+<script>
+function toggleComments(postId) {
+    const commentsDiv = document.getElementById(`comments-${postId}`);
+    if (commentsDiv.style.display === "none" || commentsDiv.style.display === "") {
+        commentsDiv.style.display = "block";
+    } else {
+        commentsDiv.style.display = "none";
+    }
+}
+</script>
 
 {% endblock content %}

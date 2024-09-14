@@ -25,6 +25,7 @@ urlpatterns = [
     path('event/<int:pk>/delete/', EventDeleteView.as_view(), name='event-delete'),
       path('contact/', views.contact_view, name='contact'),
     path('contact-success/', views.contact_success, name='contact-success'),
+    path('post/<int:pk>/like/', views.like_post, name='like-post'),
     
     path('about/', views.about, name='blog-about'),
     # path('contact/', views.contact, name='contact'),

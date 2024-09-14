@@ -1,5 +1,8 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.conf import settings
 from .forms import ContactForm
 from django.urls import reverse_lazy
@@ -10,12 +13,27 @@ from .models import Posts,Comment,AboutPage,Announcements,Event
 from django.views.generic import ListView,DetailView,CreateView,DeleteView,UpdateView
 from .forms import CommentForm,AnnouncementForm,EventForm
 
-def home(request):
-    context = {
-        'posts': Posts.objects.all
+# @login_required
+def like_post(request, pk):
+    post = get_object_or_404(Posts, pk=pk)
     
-    }
-    return render(request, 'blog/home.html', context)
+    # If the user is authenticated
+    if request.user.is_authenticated:
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+    
+    # For anonymous users, store likes in the session
+    else:
+        liked_posts = request.session.get('liked_posts', [])
+        if pk in liked_posts:
+            liked_posts.remove(pk)  # Unlike if already liked
+        else:
+            liked_posts.append(pk)  # Like
+        request.session['liked_posts'] = liked_posts
+
+    return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
 
 class PostListView(ListView):
     model = Posts
@@ -38,6 +56,7 @@ class UserPostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Posts
+   
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Posts
