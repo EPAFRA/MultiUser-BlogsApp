@@ -4,7 +4,7 @@ cloudinary==1.41.0
 crispy-bootstrap5==2024.2
 Django==5.1
 django-crispy-forms==2.3
-mysqlclient==2.2.4
+# mysqlclient==2.2.4
 packaging==24.1
 pillow==10.4.0
 PyMySQL==1.1.1
