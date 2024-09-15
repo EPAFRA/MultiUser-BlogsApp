@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
@@ -34,4 +34,10 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ['gender','image']
 
-   
+class CustomSetPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        # Remove any extra arguments that might be causing issues
+        super().__init__(*args, **kwargs)
+        # Remove the help texts
+        for field in self.fields.values():
+            field.help_text = None
