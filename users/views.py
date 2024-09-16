@@ -72,31 +72,17 @@ def profile(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages.success(request, f'Your account has been updated!')
+            messages.success(request, 'Your account has been updated!')
             return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
-    image_url = get_profile_image_url(request.user.profile)
-
     context = {
         'u_form': u_form,
         'p_form': p_form,
-        'profile_image_url': image_url  # Pass the image URL to the template
+        'profile_image_url': request.user.profile.get_profile_image_url  # Get the image URL directly
     }
 
     return render(request, 'users/profile.html', context)
 
-
-def get_profile_image_url(profile):
-    if profile.image:  # Check if the image is not None
-        url, options = cloudinary_url(
-            profile.image.public_id,
-            width=150,       # Desired width
-            height=150,      # Desired height
-            crop='fill',     # Crop mode: 'fill' ensures the image fills the dimensions
-            gravity="face"   # Optional: Focus on the face if detected
-        )
-        return url
-    return None
