@@ -71,7 +71,13 @@
           {% block content %}{% endblock %}
         </div>
         <div class="col-md-4">
-          <div class="content-section sticky-sidebar" style="background-color: #dbd8e9; padding: 20px; border-radius: 8px;">
+          <div class="content-section sticky-sidebar" style="background-color: #dbd8e9; padding: 20px; border-radius: 8px;
+            position: -webkit-sticky; 
+            position: sticky;
+            top: 70px; 
+            padding-top: 20px;
+            z-index: 1000; 
+          ">
             <ul class="list-group">
               <!-- First List Item -->
               <li class="list-group-item" style="background-color: #F0B3B3;">
