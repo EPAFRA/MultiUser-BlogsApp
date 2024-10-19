@@ -128,12 +128,24 @@ class LatestPostsView(ListView):
     ordering = ['-date_posted']
     paginate_by = 5 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 class AnnouncementListView(ListView):
     model = Announcements
-    template_name = 'blog/announcements.html'  # Template to display announcements
+    template_name = 'blog/announcements.html'
     context_object_name = 'announcements'
-    ordering = ['-date_posted']  # Order announcements by date posted
-    paginate_by = 5 
+    ordering = ['-date_posted']
+    paginate_by = 5
+
+    def get_queryset(self):
+        try:
+            return super().get_queryset()
+        except Exception as e:
+            logger.error(f"Error fetching announcements: {e}")
+            return Announcements.objects.none()  # Return an empty queryset
+
 
 
 class AnnouncementDetailView(DetailView):
