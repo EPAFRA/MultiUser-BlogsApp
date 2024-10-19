@@ -45,7 +45,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 # DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app',"railway.app","whatgirlswant.co.tz",  '127.0.0.1']
+ALLOWED_HOSTS = ['.vercel.app',".railway.app",".whatgirlswant.co.tz",  '127.0.0.1']
 
 
 # Application definition
