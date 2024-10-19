@@ -156,15 +156,15 @@ class AnnouncementCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView
     def get_success_url(self):
         return reverse_lazy('announcements')
 
-class AnnouncementDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
-    model = Announcements
-    success_url = '/'
+# class AnnouncementDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+#     model = Announcements
+#     success_url = '/'
 
-    def test_func(self):
-        post= self.get_object()
-        if self.request.user == Announcements.author:
-            return True
-        return False
+#     def test_func(self):
+#         post= self.get_object()
+#         if self.request.user == Announcements.author:
+#             return True
+#         return False
     
 class AnnouncementDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Announcements
