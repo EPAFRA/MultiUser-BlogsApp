@@ -1,84 +1,81 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 {% for post in posts %}
-<article class="media content-section" style="padding: 15px; border: 1px solid #ddd; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
+<article class="media content-section" style="padding: 15px; border: 1px solid #e1bee7; margin-bottom: 20px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f3e5f5; overflow: hidden;">
 
     <!-- Profile Image and Metadata -->
-    <img class="rounded-circle account-img" src="{{ post.author.profile.image.url }}" alt="{{ post.author.username }}'s profile image" style="width: 50px; height: 50px; margin-right: 10px; object-fit: cover;">
+    <img class="rounded-circle account-img" src="{{ post.author.profile.image.url }}" alt="{{ post.author.username }}'s profile image" style="width: 60px; height: 60px; margin-right: 10px; object-fit: cover; border: 2px solid #9c27b0;">
     
     <div class="media-body" style="flex: 1;">
-        <div class="article-metadata" style="margin-bottom: 5px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">
-            <a href="{% url 'user-posts' post.author.username %}" style="font-weight: bold; color: #007bff; text-decoration: none;">{{ post.author }}</a>
-            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+        <div class="article-metadata" style="margin-bottom: 5px; border-bottom: 1px solid #e1bee7; padding-bottom: 5px;">
+            <a href="{% url 'user-posts' post.author.username %}" style="font-weight: bold; color: #5e35b1; text-decoration: none; font-size: 1.1rem;">{{ post.author }}</a>
+            <small class="text-muted" style="font-size: 0.9rem; color: #8e24aa;">{{ post.date_posted|date:"F d, Y" }}</small>
         </div>
 
         <!-- Post Image - Conditional -->
         {% if post.post_image %}
-        <img src="{{ post.post_image.url }}" alt="{{ post.title }}" style="width: 100%; height: auto; border-radius: 8px; margin: 10px 0; object-fit: cover;">
+        <img src="{{ post.post_image.url }}" alt="{{ post.title }}" style="width: 100%; height: auto; border-radius: 15px; margin: 10px 0; object-fit: cover;">
         {% endif %}
 
         <!-- Post Title and Content -->
-        <h2 style="margin: 5px 0 10px 0;">
-            <a href="{% url 'post-detail' post.id %}" style="color: #333; text-decoration: none; font-size: 1.25em;">{{ post.title }}</a>
+        <h2 style="margin: 5px 0 10px 0; font-size: 1.4rem; color: #5e35b1;">
+            <a href="{% url 'post-detail' post.id %}" style="color: #5e35b1; text-decoration: none;">{{ post.title }}</a>
         </h2>
-        <p style="color: #555; font-size: 0.9rem; margin-bottom: 10px;">{{ post.content|truncatewords:20 }}</p>
+        <p style="color: #4a148c; font-size: 0.95rem; margin-bottom: 10px;">{{ post.content|truncatewords:20 }}</p>
 
         <!-- Actions: Like, Comment -->
         <div class="post-actions" style="padding: 10px;">
-            
             <!-- Comment Button -->
             <a onclick="toggleComments('{{ post.id }}')" class="comment-icon" style="text-decoration: none; cursor: pointer;">
-                <i class="fas fa-comment" style="font-size: 1.5rem; color: #333;"></i>     
-                <span style="font-size: 1rem; color: #333;">{{ post.comments.count }} comments</span>
+                <i class="fas fa-comment" style="font-size: 1.2rem; color: #5e35b1;"></i>     
+                <span style="font-size: 1rem; color: #5e35b1;">{{ post.comments.count }} comments</span>
             </a>
             
             <!-- Like Button (with Icon) -->
             <form action="{% url 'like-post' post.pk %}" method="POST" style="display: inline;">
-              {% csrf_token %}
-              {% if request.user.is_authenticated %}
-                  {% if request.user in post.likes.all %}
-                  <!-- Unlike Button (Heart Filled) -->
-                  <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none;">
-                      <i class="fas fa-heart" style="font-size: 1.5rem; color: red;"></i>
-                  </button>
-                  {% else %}
-                  <!-- Like Button (Heart Outline) -->
-                  <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
-                      <i class="far fa-heart" style="font-size: 1.5rem; color: #333;"></i>
-                  </button>
-                  {% endif %}
-              {% else %}
-                  <!-- Check if the post is in the liked posts stored in session -->
-                  {% if post.pk in request.session.liked_posts %}
-                  <!-- Unlike Button for Anonymous User (Heart Filled) -->
-                  <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none;">
-                      <i class="fas fa-heart" style="font-size: 1.5rem; color: red;"></i>
-                  </button>
-                  {% else %}
-                  <!-- Like Button for Anonymous User (Heart Outline) -->
-                  <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
-                      <i class="far fa-heart" style="font-size: 1.5rem; color: #333;"></i>
-                  </button>
-                  {% endif %}
-              {% endif %}
-          </form>
-          <span>{{ post.total_likes }} likes</span>
-          
+                {% csrf_token %}
+                {% if request.user.is_authenticated %}
+                    {% if request.user in post.likes.all %}
+                    <!-- Unlike Button (Heart Filled) -->
+                    <button type="submit" class="btn" style="border: none; background: none;">
+                        <i class="fas fa-heart" style="font-size: 1.2rem; color: #9c27b0;"></i>
+                    </button>
+                    {% else %}
+                    <!-- Like Button (Heart Outline) -->
+                    <button type="submit" class="btn" style="border: none; background: none;">
+                        <i class="far fa-heart" style="font-size: 1.2rem; color: #5e35b1;"></i>
+                    </button>
+                    {% endif %}
+                {% else %}
+                    {% if post.pk in request.session.liked_posts %}
+                    <!-- Unlike Button for Anonymous User (Heart Filled) -->
+                    <button type="submit" class="btn" style="border: none; background: none;">
+                        <i class="fas fa-heart" style="font-size: 1.2rem; color: #9c27b0;"></i>
+                    </button>
+                    {% else %}
+                    <!-- Like Button for Anonymous User (Heart Outline) -->
+                    <button type="submit" class="btn" style="border: none; background: none;">
+                        <i class="far fa-heart" style="font-size: 1.2rem; color: #5e35b1;"></i>
+                    </button>
+                    {% endif %}
+                {% endif %}
+            </form>
+            <span style="color: #5e35b1;">{{ post.total_likes }} likes</span>
         </div>
 
         <!-- Comments Section (Initially Hidden) -->
-        <div id="comments-{{ post.id }}" style="display: none; border-top: 1px solid #ddd; padding-top: 10px;">
+        <div id="comments-{{ post.id }}" style="background-color: #f8bbd0; padding: 10px; border-radius: 10px; border: 1px solid #e1bee7; margin-top: 10px; display: none;">
             <!-- Add Comment Form -->
-            <form method="POST" action="{% url 'add_comment' post.id %}" style="margin-bottom: 20px;">
+            <form method="POST" action="{% url 'add_comment' post.id %}" style="margin-bottom: 10px;">
                 {% csrf_token %}
-                <textarea name="body" class="form-control" placeholder="Add a comment..." rows="1" required style="resize: none;"></textarea>
-                <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 5px;">Post</button>
+                <textarea name="body" class="form-control" placeholder="Add a comment..." rows="1" required style="resize: none; border-radius: 10px; border: 1px solid #9c27b0;"></textarea>
+                <button type="submit" class="btn btn-primary" style="margin-top: 5px; background-color: #9c27b0; border: none;">Post</button>
             </form>
 
             <!-- Display Comments -->
             {% for comment in post.comments.all %}
-            <div style="display: flex; margin-bottom: 5px;">
-                <p style="margin: 0; font-size: 0.85rem;">
+            <div style="background: #f3e5f5; padding: 5px; border-radius: 8px; margin-bottom: 5px;">
+                <p style="margin: 0; font-size: 0.85rem; color: #5e35b1;">
                     <strong>{{ comment.author }}</strong> {{ comment.body }}
                 </p>
             </div>
@@ -92,19 +89,19 @@
 {% if is_paginated %}
   <div style="display: flex; justify-content: center; margin-top: 20px;">
     {% if page_obj.has_previous %}
-      <a class="btn btn-outline-info mb-4" href="?page=1" style="margin: 0 5px;">First</a>
-      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}" style="margin: 0 5px;">Previous</a>
+      <a class="btn btn-outline-info mb-4" href="?page=1" style="margin: 0 5px; background-color: #e1bee7; color: #5e35b1; border: none;">First</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}" style="margin: 0 5px; background-color: #e1bee7; color: #5e35b1; border: none;">Previous</a>
     {% endif %}
     {% for num in page_obj.paginator.page_range %}
         {% if page_obj.number == num %}
-             <a class="btn btn-info mb-4" href="?page={{ num }}" style="margin: 0 5px;">{{ num }}</a>
+             <a class="btn btn-info mb-4" href="?page={{ num }}" style="margin: 0 5px; background-color: #9c27b0; color: white; border: none;">{{ num }}</a>
         {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ num }}" style="margin: 0 5px;">{{ num }}</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ num }}" style="margin: 0 5px; background-color: #e1bee7; color: #5e35b1; border: none;">{{ num }}</a>
         {% endif %}
     {% endfor %}
     {% if page_obj.has_next %}
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}" style="margin: 0 5px;">Next</a>
-        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}" style="margin: 0 5px;">Last</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}" style="margin: 0 5px; background-color: #e1bee7; color: #5e35b1; border: none;">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}" style="margin: 0 5px; background-color: #e1bee7; color: #5e35b1; border: none;">Last</a>
     {% endif %}
   </div>
 {% endif %}

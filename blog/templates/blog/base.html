@@ -1,116 +1,158 @@
-{% load static %}
+{% load static %}  <!-- Load the static files template tag library -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet" />
-
     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
 
-    {% if title %}
-        <title>Tina Forum - {{ title }}</title>
-    {% else %}
-        <title>Tina Forum Blog</title>
-    {% endif %}
-</head>
-<body style="background-color: #f8f9fa; color: #4f77b9; margin-top: 5rem;">
-    <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top" 
-     style="background-image: url('{{ CLOUDINARY_LOGO_URL }}'); background-size: cover; background-position: center; 
-     background-color: rgba(0, 0, 0, 0.5);"> <!-- This adds a semi-transparent overlay -->
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Soft gradient background */
+        }
 
-        <div class="container">
-          <img src="https://res.cloudinary.com/dqvewferm/image/upload/v1726129435/logo_gdeqmm.jpg" alt="Tina Blog Forum" style="height: 50px; width: 5%; border-radius: 50%; border: 2px solid #4e73df"/>
-          <a class="navbar-brand mr-4" href="{% url 'blog-home' %}" style="color: #F0B3B3;">
-            WHAT GIRLS WANT
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{% url 'blog-home' %}" style="color: #dbd8e9;">Home</a>
-              <a class="nav-item nav-link" href="{% url 'blog-about' %}" style="color: #dbd8e9;">About</a>
-              <a class="nav-link" href="{% url 'contact' %}" style="color: #dbd8e9;">Contact</a>
+        .container {
+            flex: 1;
+        }
+
+        .content-section {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px; /* Add some space between content sections */
+        }
+
+        footer {
+            background: linear-gradient(90deg, rgba(134, 95, 179, 0.8), rgba(56, 103, 214, 0.8));
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            flex-shrink: 0;
+        }
+
+        /* New styles for sidebar items */
+    .list-group-item {
+        background-color:#f8bbd0; /* Light pink background for the sidebar */
+        border: none; /* Remove border */
+        color: #d5006d; /* Text color to match theme */
+        transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+    }
+
+    .list-group-item a {
+        color: #d5006d; /* Ensure link color matches */
+        text-decoration: none; /* Remove underline */
+    }
+
+    .list-group-item:hover {
+        background-color: #f8bbd0; /* Slightly darker pink on hover */
+        transform: scale(1.02); /* Slight zoom effect */
+    }
+    </style>
+
+    <title>Tina Forum Blog</title>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md fixed-top" style="background: linear-gradient(90deg, rgba(134, 95, 179, 0.8), rgba(56, 103, 214, 0.8)); color: #fff;">
+            <div class="container">
+                <img src="https://res.cloudinary.com/dqvewferm/image/upload/v1726129435/logo_gdeqmm.jpg" alt="Tina Blog Forum" style="height: 50px; width: 50px; border-radius: 50%; border: 2px solid #fff; margin-right: 10px;"/>
+                <a class="navbar-brand mr-4" href="{% url 'blog-home' %}" style="color: #ffffff; font-size: 1.5rem;">WHAT GIRLS WANT</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link" href="{% url 'blog-home' %}" style="color: #ffffff;">Home</a>
+                        <a class="nav-item nav-link" href="{% url 'blog-about' %}" style="color: #ffffff;">About</a>
+                        <a class="nav-link" href="{% url 'contact' %}" style="color: #ffffff;">Contact</a>
+                    </div>
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <a class="nav-item nav-link" href="{% url 'profile' %}" style="color: #ffffff;">Profile</a>
+                            <a class="nav-item nav-link" href="{% url 'post-create' %}" style="color: #ffffff;">New Post</a>
+                            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-item nav-link btn btn-link" style="color: #ffffff;">Logout</button>
+                            </form>
+                        {% else %}
+                            <a class="nav-item nav-link" href="{% url 'login' %}" style="color: #ffffff;">Login</a>
+                            <a class="nav-item nav-link" href="{% url 'register' %}" style="color: #ffffff;">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <!-- Navbar Right Side -->
-            <div class="navbar-nav">
-              {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'profile' %}" style="color: #dbd8e9;">Profile</a>
-                <a class="nav-item nav-link" href="{% url 'post-create' %}" style="color: #dbd8e9;">New Post</a>
-                <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                  {% csrf_token %}
-                  <button type="submit" class="nav-item nav-link btn btn-link" style="color: #dbd8e9;">Logout</button>
-                </form>
-              {% else %}
-                <a class="nav-item nav-link" href="{% url 'login' %}" style="color: #dbd8e9;">Login</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}" style="color: #dbd8e9;">Register</a>
-                <!-- {% url 'register' %} -->
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </nav>
+        </nav>
     </header>
-    <main role="main" class="container">
-      <div class="row">
-        <div class="col-md-8">
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-              </div>
-            {% endfor %}
-          {% endif %}
-          {% block content %}{% endblock %}
+
+    <main role="main" class="container" style="margin-top: 70px;"> <!-- Adjust margin-top to avoid overlap with navbar -->
+        <div class="row">
+            <div class="col-md-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" style="background-color: #A3C6E0; color: #ffffff;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="content-section">
+                    {% block content %}
+                        <p>Content is loading...</p> <!-- Placeholder for debugging -->
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="content-section sticky-sidebar">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="{% url 'latest-posts' %}">
+                                <i class="fas fa-newspaper"></i> Latest Posts
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{% url 'announcements' %}">
+                                <i class="fas fa-bullhorn"></i> Announcements
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{% url 'calendar-view' %}">
+                                <i class="fas fa-calendar-alt"></i> Calendar
+                            </a>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-          <div class="content-section sticky-sidebar" style="background-color: #dbd8e9; padding: 20px; border-radius: 8px;
-            position: -webkit-sticky; 
-            position: sticky;
-            top: 70px; 
-            padding-top: 20px;
-            z-index: 1000; 
-          ">
-            <ul class="list-group">
-              <!-- First List Item -->
-              <li class="list-group-item" style="background-color: #F0B3B3;">
-                <a href="{% url 'latest-posts' %}" style="color: #4F77B9;">
-                  <i class="fas fa-newspaper"></i> Latest Posts
-                </a>
-              </li>
-            
-              <!-- Second List Item -->
-              <li class="list-group-item" style="background-color: #C3DCE3;">
-                <a href="{% url 'announcements' %}" style="color: #4F77B9;">
-                  <i class="fas fa-bullhorn"></i> Announcements
-                </a>
-              </li>
-            
-              <!-- Third List Item -->
-              <li class="list-group-item" style="background-color: #D6E5F3;">
-                <a href="{% url 'calendar-view' %}" style="color: #4F77B9;">
-                  <i class="fas fa-calendar-alt"></i> Calendar
-                </a>
-              </li>
-            </ul>
-            
-          </div>
-        </div>
-      </div>
     </main>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 WHAT GIRLS WANT. All rights reserved.</p>
+            <p>Follow us on:
+                <a href="https://facebook.com" target="_blank" style="color: #ffffff; text-decoration: none;">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com" target="_blank" style="color: #ffffff; margin-left: 10px; text-decoration: none;">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" style="color: #ffffff; margin-left: 10px; text-decoration: none;">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

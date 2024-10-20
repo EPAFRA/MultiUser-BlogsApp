@@ -1,76 +1,67 @@
 {% extends 'blog/base.html' %}
 {% block content %}
 <div class="container" style="max-width: 600px; margin: 0 auto;">
-    <article class="post-item" style="margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <article class="post-item" style="margin-bottom: 20px; border: 1px solid #e1b7d0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); background-color: #fff5f8;">
         <!-- Post Header (Author Profile & Date) -->
-        <div class="post-header d-flex align-items-center" style="padding: 10px;">
-            <img class="rounded-circle" src="{{ object.author.profile.image.url }}" alt="{{ object.author.username }}'s profile image" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
+        <div class="post-header d-flex align-items-center" style="padding: 15px; background-color: #ffe6f2;">
+            <img class="rounded-circle" src="{{ object.author.profile.image.url }}" alt="{{ object.author.username }}'s profile image" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
             <div>
-                <a href="{% url 'user-posts' object.author.username %}" style="font-weight: bold; color: #333; text-decoration: none;">{{ object.author }}</a><br>
-                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+                <a href="{% url 'user-posts' object.author.username %}" style="font-weight: bold; color: #d55f8e; text-decoration: none;">{{ object.author }}</a><br>
+                <small class="text-muted" style="color: #a0a0a0;">{{ object.date_posted|date:"F d, Y" }}</small>
             </div>
         </div>
 
         <!-- Post Image -->
         <div class="post-image">
-            <img src="{% if object.post_image %}{{ object.post_image.url }}{% else %}default_image_url{% endif %}" alt="{{ object.title }}" style="width: 100%; height: auto; object-fit: cover;">
+            <img src="{% if object.post_image %}{{ object.post_image.url }}{% else %}default_image_url{% endif %}" alt="{{ object.title }}" style="width: 100%; height: auto; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
         </div>
 
         <!-- Post Actions (Comment Icon and Like Button) -->
-        <div class="post-actions" style="padding: 10px;">
-            <a href="#comments" class="comment-icon" style="text-decoration: none; margin-right: 10px;">
-                <i class="fas fa-comment" style="font-size: 1.5rem; color: #333;"></i>
+        <div class="post-actions" style="padding: 10px; display: flex; align-items: center;">
+            <a href="#comments" class="comment-icon" style="text-decoration: none; margin-right: 5px;">
+                <i class="fas fa-comment" style="font-size: 1.5rem; color: #d55f8e;"></i>
             </a>
-            <span style="font-size: 1rem; color: #333;">{{ object.comments.count }} comments</span>
+            <span style="font-size: 1rem; color: #333; margin-right: 10px;">{{ object.comments.count }} comments</span>
 
             <form action="{% url 'like-post' object.pk %}" method="POST" style="display: inline;">
                 {% csrf_token %}
                 {% if request.user.is_authenticated %}
                     {% if request.user in object.likes.all %}
                     <!-- Unlike Button (Heart Filled) -->
-                    <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none;">
-                        <i class="fas fa-heart" style="font-size: 1.5rem; color: red;"></i>
+                    <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none; padding: 0;">
+                        <i class="fas fa-heart" style="font-size: 1.5rem; color: #ff6f61;"></i>
                     </button>
                     {% else %}
                     <!-- Like Button (Heart Outline) -->
-                    <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
-                        <i class="far fa-heart" style="font-size: 1.5rem; color: #333;"></i>
+                    <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none; padding: 0;">
+                        <i class="far fa-heart" style="font-size: 1.5rem; color: #d55f8e;"></i>
                     </button>
                     {% endif %}
                 {% else %}
-                    <!-- Check if the post is in the liked posts stored in session -->
-                    {% if object.pk in request.session.liked_posts %}
-                    <!-- Unlike Button for Anonymous User (Heart Filled) -->
-                    <button type="submit" class="btn btn-outline-danger btn-sm" style="border: none; background: none;">
-                        <i class="fas fa-heart" style="font-size: 1.5rem; color: red;"></i>
+                    <button type="button" class="btn btn-outline-primary btn-sm" style="border: none; background: none; padding: 0;" disabled>
+                        <i class="far fa-heart" style="font-size: 1.5rem; color: #d55f8e;"></i>
                     </button>
-                    {% else %}
-                    <!-- Like Button for Anonymous User (Heart Outline) -->
-                    <button type="submit" class="btn btn-outline-primary btn-sm" style="border: none; background: none;">
-                        <i class="far fa-heart" style="font-size: 1.5rem; color: #333;"></i>
-                    </button>
-                    {% endif %}
                 {% endif %}
             </form>
-            <span>{{ object.posts.likes.count }} likes</span>
+            <span style="color: #333; margin-left: 5px;">{{ object.likes.count }} likes</span>
         </div>
 
         <!-- Post Content -->
-        <div class="post-content" style="padding: 10px;">
-            <h2 style="font-size: 1.25rem; color: #333; margin: 0; font-weight: bold;">{{ object.title }}</h2>
-            <p style="color: #555; margin-top: 10px;">{{ object.content }}</p>
+        <div class="post-content" style="padding: 15px;">
+            <h2 style="font-size: 1.5rem; color: #d55f8e; margin: 0; font-weight: bold;">{{ object.title }}</h2>
+            <p style="color: #555; margin-top: 10px; line-height: 1.5;">{{ object.content }}</p>
         </div>
     </article>
 
     <!-- Comments Section -->
-    <section id="comments" style="padding: 10px; border-top: 1px solid #ddd; margin-top: 20px;">
-        <h4 style="font-size: 1.25rem; color: #333; margin-bottom: 15px;">Comments</h4>
+    <section id="comments" style="padding: 10px; border-top: 1px solid #e1b7d0; margin-top: 20px;">
+        <h4 style="font-size: 1.25rem; color: #d55f8e; margin-bottom: 15px;">Comments</h4>
 
         <!-- Comment Input Form -->
         <form method="POST" action="{% url 'add_comment' object.pk %}" style="margin-bottom: 20px;">
             {% csrf_token %}
-            <textarea name="body" class="form-control" placeholder="Add a comment..." rows="1" required style="resize: none;"></textarea>
-            <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 5px;">Post</button>
+            <textarea name="body" class="form-control" placeholder="Add a comment..." rows="1" required style="resize: none; border: 1px solid #d55f8e;"></textarea>
+            <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 5px; background-color: #d55f8e; border: none;">Post</button>
         </form>
 
         <!-- List of Comments -->
@@ -78,9 +69,8 @@
         <ul class="list-unstyled">
             {% for comment in object.comments.all %}
             <li class="media mb-2" style="padding: 5px 0; border-bottom: 1px solid #eee;">
-                <!-- <img class="mr-2 rounded-circle" src="{{ comment.author.profile.image.url }}" alt="{{ comment.author.username }}" style="width: 30px; height: 30px; object-fit: cover;"> -->
                 <div class="media-body" style="font-size: 0.9rem; color: #333;">
-                    <strong>{{ comment.author }}</strong> {{ comment.body }}
+                    <strong style="color: #d55f8e;">{{ comment.author }}</strong> {{ comment.body }}
                     <!-- Delete option for the post author -->
                     {% if object.author == user %}
                     <a href="{% url 'comment-delete' comment.pk %}" class="text-danger float-right" style="font-size: 0.8rem;">Delete</a>

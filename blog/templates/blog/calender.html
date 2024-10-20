@@ -1,35 +1,50 @@
 {% extends 'blog/base.html' %}
+
 {% block content %}
-<div class="container mt-5" style="background-color: #dbd8e9; padding-bottom: 30px;">
-    <h1 class="mb-4" style="font-weight: bold; color: #333; text-align: center;">Calendar</h1>
+<div class="container mt-5" style="background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+    <h1 class="mb-4 text-center" style="font-weight: bold; color: #4e73df;">Calendar</h1>
 
     <!-- Create Event Button (Visible Only to Admins) -->
     {% if user.is_staff %}
-    <a href="{% url 'event-create' %}" class="btn btn-primary mb-4" style="margin-bottom: 20px;">
-        <i class="fas fa-plus"></i> Create Event
-    </a>
+    <div style="text-align: center;">
+        <a href="{% url 'event-create' %}" class="btn btn-primary mb-4" style="border-radius: 25px; padding: 10px 20px;">
+            <i class="fas fa-plus"></i> Create Event
+        </a>
+    </div>
     {% endif %}
 
     <!-- Calendar View -->
-    <div class="calendar-view" style="margin-bottom: 30px;">
-        <div id="calendar" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px;"></div>
+    <div class="calendar-view mb-4">
+        <div id="calendar" style="border: 1px solid #007bff; border-radius: 10px; background-color: #f9f9f9; padding: 20px;"></div>
     </div>
 
     <!-- Event List -->
-    <div class="event-list mt-4" style="margin-top: 30px; background-color: #dbd8e9">
-        <h2 style="font-size: 24px; margin-bottom: 20px; ">Upcoming Events</h2>
+    <div class="event-list mt-4" style="background-color: #f8f9fa; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+        <h2 style="font-size: 24px; margin-bottom: 20px; text-align: center; color: #333;">Upcoming Events</h2>
         <ul class="list-unstyled">
             {% for event in events %}
-            <li class="media mb-3 p-3 bg-light rounded" style="border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f8f9fa;">
+            <li class="media mb-3 p-3" style="border: 1px solid #ddd; border-radius: 10px; background-color: #ffffff; transition: transform 0.3s, box-shadow 0.3s;">
                 <div class="media-body">
                     <h5 class="mt-0 mb-1" style="font-size: 1.5rem; color: #4e73df; font-weight: bold;">{{ event.title }}</h5>
                     <small class="text-muted" style="font-size: 14px;">{{ event.date|date:"F d, Y" }}</small>
-                    <p class="mt-2" style=" line-height: 1.5; color: #333; text-decoration: none; font-size:1.1rem;">{{ event.description|slice:":200" }}{% if event.description|length > 200 %}...{% endif %}</p>
-                    <a href="{% url 'event-detail' event.pk %}" class="btn btn-info btn-sm" style="font-size: 14px;">Read More</a>
+                    <p class="mt-2" style="line-height: 1.5; color: #333; font-size: 1.1rem;">
+                        {{ event.description|slice:":200" }}{% if event.description|length > 200 %}...{% endif %}
+                    </p>
+                    <div style="text-align: right;">
+                        <a href="{% url 'event-detail' event.pk %}" class="btn btn-info btn-sm" style="border-radius: 20px; padding: 5px 10px; font-size: 14px;">Read More</a>
+                    </div>
                 </div>
             </li>
             {% endfor %}
         </ul>
     </div>
 </div>
+
+<style>
+    /* Additional styles for hover effects and transitions */
+    .media:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
 {% endblock content %}
