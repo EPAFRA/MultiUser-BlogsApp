@@ -134,7 +134,7 @@ logger = logging.getLogger(__name__)
 
 class AnnouncementListView(ListView):
     model = Announcements
-    template_name = 'blog/announcements.html'
+    template_name = 'blog/announcements_list.html'
     context_object_name = 'announcements'
     ordering = ['-date_posted']
     paginate_by = 5
