@@ -23,20 +23,12 @@ class Posts(models.Model):
     
 from django.db import models
 
-class AboutPage(models.Model):
+class AboutusPage(models.Model):
     title = models.CharField(max_length=100)
-    introduction = models.TextField()
-    story = models.TextField()
-    team_member_1_name = models.CharField(max_length=100)
-    team_member_1_title = models.CharField(max_length=100)
-    team_member_1_image = CloudinaryField('image', blank=True, null=True) 
-    team_member_2_name = models.CharField(max_length=100)
-    team_member_2_title = models.CharField(max_length=100)
-    team_member_2_image = CloudinaryField('image', blank=True, null=True) 
-    team_member_3_name = models.CharField(max_length=100)
-    team_member_3_title = models.CharField(max_length=100)
-    team_member_3_image = CloudinaryField('image', blank=True, null=True) 
-    features = models.TextField()
+    who_are_we = models.TextField()
+    what_we_do = models.TextField()
+    mission = models.TextField()
+    vission = models.TextField()
     join_us = models.TextField()
     contact_info = models.TextField()
 

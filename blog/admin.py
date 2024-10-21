@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Posts,AboutPage,Event
+from .models import Posts,AboutusPage,Event
 
 admin.site.register(Posts)
 
 
 
-@admin.register(AboutPage)
+@admin.register(AboutusPage)
 class AboutPageAdmin(admin.ModelAdmin):
     list_display = ('title',)
 

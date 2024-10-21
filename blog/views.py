@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from .models import Posts,Comment,AboutPage,Announcements,Event
+from .models import Posts,Comment,AboutusPage,Announcements,Event
 from django.views.generic import ListView,DetailView,CreateView,DeleteView,UpdateView
 from .forms import CommentForm,AnnouncementForm,EventForm
 
@@ -118,7 +118,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
 
 def about(request):
-    about_page = AboutPage.objects.first()
+    about_page = AboutusPage.objects.first()
     return render(request, 'blog/about.html',{'about_page': about_page})
 
 class LatestPostsView(ListView):
