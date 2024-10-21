@@ -27,8 +27,8 @@
         <div class="post-actions" style="padding: 10px;">
             <!-- Comment Button -->
             <a onclick="toggleComments('{{ post.id }}')" class="comment-icon" style="text-decoration: none; cursor: pointer;">
-                <i class="fas fa-comment" style="font-size: 1.2rem; color: #5e35b1;"></i>     
-                <span style="font-size: 1rem; color: #5e35b1;">{{ post.comments.count }} comments</span>
+                <i class="fas fa-comment" style="font-size: 1.2rem; color: #333;"></i>     
+                <span style="font-size: 1rem; color: #333;">{{ post.comments.count }} comments</span>
             </a>
             
             <!-- Like Button (with Icon) -->
@@ -38,29 +38,29 @@
                     {% if request.user in post.likes.all %}
                     <!-- Unlike Button (Heart Filled) -->
                     <button type="submit" class="btn" style="border: none; background: none;">
-                        <i class="fas fa-heart" style="font-size: 1.2rem; color: #9c27b0;"></i>
+                        <i class="fas fa-heart" style="font-size: 1.2rem; color: #ca0d0d;"></i>
                     </button>
                     {% else %}
                     <!-- Like Button (Heart Outline) -->
                     <button type="submit" class="btn" style="border: none; background: none;">
-                        <i class="far fa-heart" style="font-size: 1.2rem; color: #5e35b1;"></i>
+                        <i class="far fa-heart" style="font-size: 1.2rem; color: #ca0d0d;"></i>
                     </button>
                     {% endif %}
                 {% else %}
                     {% if post.pk in request.session.liked_posts %}
                     <!-- Unlike Button for Anonymous User (Heart Filled) -->
                     <button type="submit" class="btn" style="border: none; background: none;">
-                        <i class="fas fa-heart" style="font-size: 1.2rem; color: #9c27b0;"></i>
+                        <i class="fas fa-heart" style="font-size: 1.2rem; color: #ca0d0d;"></i>
                     </button>
                     {% else %}
                     <!-- Like Button for Anonymous User (Heart Outline) -->
                     <button type="submit" class="btn" style="border: none; background: none;">
-                        <i class="far fa-heart" style="font-size: 1.2rem; color: #5e35b1;"></i>
+                        <i class="far fa-heart" style="font-size: 1.2rem; color: #ca0d0d;"></i>
                     </button>
                     {% endif %}
                 {% endif %}
             </form>
-            <span style="color: #5e35b1;">{{ post.total_likes }} likes</span>
+            <span style="color: #333;">{{ post.total_likes }} likes</span>
         </div>
 
         <!-- Comments Section (Initially Hidden) -->
