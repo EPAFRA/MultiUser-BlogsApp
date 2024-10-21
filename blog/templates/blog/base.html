@@ -40,12 +40,15 @@
         }
 
         /* New styles for sidebar items */
-    .list-group-item {
-        background-color:  #c3cfe2; /* Light pink background for the sidebar */
-        border: none; /* Remove border */
-        color: rgba(56, 103, 214, 0.8); /* Text color to match theme */
-        transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
-    }
+        .list-group-item {
+    background-color: #c3cfe2; /* Light pink background for the sidebar */
+    border: none; /* Remove border */
+    color: rgba(56, 103, 214, 0.8); /* Text color to match theme */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+    margin-bottom: 10px; /* Add space between list items */
+    border-radius: 5px; /* Add some rounding to make it look nicer */
+    padding: 10px; /* Add padding for better spacing inside */
+}
 
     .list-group-item a {
         color:  rgba(56, 103, 214, 0.8); /* Ensure link color matches */
@@ -62,13 +65,15 @@
 </head>
 <body>
     <header class="site-header">
-        <nav class="navbar navbar-expand-md fixed-top" style="background: linear-gradient(90deg, rgba(134, 95, 179, 0.8), rgba(56, 103, 214, 0.8)); color: #fff;">
+        <nav class="navbar navbar-expand-md fixed-top navbar-light" style="background: linear-gradient(90deg, rgba(134, 95, 179, 0.8), rgba(56, 103, 214, 0.8));">
+
             <div class="container">
                 <img src="https://res.cloudinary.com/dqvewferm/image/upload/v1726129435/logo_gdeqmm.jpg" alt="Tina Blog Forum" style="height: 50px; width: 50px; border-radius: 50%; border: 2px solid #fff; margin-right: 10px;"/>
                 <a class="navbar-brand mr-4" href="{% url 'blog-home' %}" style="color: #ffffff; font-size: 1.5rem;">WHAT GIRLS WANT</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon" style="background-image: url('data:image/svg+xml,%3Csvg viewBox%3D%220 0 30 30%22 xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cpath stroke%3D%22rgba(255, 255, 255, 0.8)%22 stroke-width%3D%222%22 d%3D%22M4 7h22M4 15h22M4 23h22%22/%3E%3C/svg%3E');"></span>
                 </button>
+        
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
                         <a class="nav-item nav-link" href="{% url 'blog-home' %}" style="color: #ffffff;">Home</a>
